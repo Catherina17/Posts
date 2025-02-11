@@ -1,0 +1,1 @@
+export const Registration = () => <div>Это страничка регистрации</div>
