@@ -2,16 +2,16 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { Provider } from 'react-redux'
-import { Posts } from './pages/posts/posts.jsx'
+import { PostsPage } from './pages/posts/postsPage.jsx'
 import App from './App.jsx'
 import { Root } from './components/root/root.jsx'
-import { DetailPost } from './pages/posts/detail/detail.jsx'
-import { EditPost } from './pages/posts/edit/edit.jsx'
-import { AddPost } from './pages/posts/add/add.jsx'
-import { Auth } from './pages/auth/auth.jsx'
-import { Registration } from './pages/registration/registration.jsx'
+import { EditPostPage } from './pages/posts/edit/editPostPage.jsx'
+import { AddPostPage } from './pages/posts/add/addPostPage.jsx'
+import { AuthPage } from './pages/authPage/authPage.jsx'
+import { RegistrationPage } from './pages/registrationPage/registrationPage.jsx'
 import { store } from './redux/store.js'
 import './index.css'
+import { DetailPostPage } from './pages/posts/detail/detailPostPage.jsx'
 
 const router = createBrowserRouter([
   {
@@ -24,27 +24,27 @@ const router = createBrowserRouter([
       },
       {
         path: 'posts',
-        element: <Posts />
+        element: <PostsPage />
       },
       {
         path: 'posts/:Id',
-        element: <DetailPost />
+        element: <DetailPostPage />
       },
       {
         path: 'posts/:Id/edit',
-        element: <EditPost />
+        element: <EditPostPage />
       },
       {
         path: 'posts/add',
-        element: <AddPost />
+        element: <AddPostPage />
       },
       {
         path: 'auth',
-        element: <Auth />
+        element: <AuthPage />
       },
       {
         path: 'registration',
-        element: <Registration />
+        element: <RegistrationPage />
       },
     ]
   },

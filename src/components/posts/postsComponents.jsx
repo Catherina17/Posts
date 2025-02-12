@@ -3,10 +3,9 @@ import * as SC from './styles'
 
 export const PostsComponents = ({ posts }) => (
     <>
-        <SC.Title>Свежие публикации</SC.Title>
         <SC.Posts>
             {posts.map((post) => (
-                <Post post={post} />
+                <Post key={post.id} post={post} />
             ))}
         </SC.Posts>
     </>
