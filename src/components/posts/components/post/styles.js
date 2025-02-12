@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const Post = styled.div`
@@ -16,14 +15,3 @@ export const Title = styled.div`
     font-size: 24px;
     font-weight: bold;
 `
-
-export const DetailLink = styled(Link)`
-    color: black;
-    text-decoration: none;
-
-    &:hover {
-        color: darkred;
-        text-decoration: underline;
-    }
-`
-

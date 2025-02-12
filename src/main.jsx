@@ -27,11 +27,11 @@ const router = createBrowserRouter([
         element: <PostsPage />
       },
       {
-        path: 'posts/:Id',
+        path: 'posts/:id',
         element: <DetailPostPage />
       },
       {
-        path: 'posts/:Id/edit',
+        path: 'posts/:id/edit',
         element: <EditPostPage />
       },
       {
