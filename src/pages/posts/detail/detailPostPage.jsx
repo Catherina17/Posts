@@ -4,17 +4,25 @@ import { useEffect } from "react"
 import { Typo } from "../../../components/typo/typo"
 import { Container } from "../../../components/container/styles"
 import { Link } from "../../../components/link/link"
-import { getPostById } from "../../../redux/slices/postsSlice"
+import { getPostById, showPost } from "../../../redux/slices/postsSlice"
 import * as SC from './styles' 
 
 export const DetailPostPage = () => {
     const { id } = useParams()
+    const { list } = useSelector((state) => state.posts.posts)
     const postForView = useSelector((state) => state.posts.postForView)
     const dispatch = useDispatch()
     
     useEffect(() => {
-        dispatch(getPostById(Number(id)))
-    }, [id])
+        const intId = Number(id)
+        const findedPosts = list ? list.find((item) => item.id === intId) : undefined
+        
+        if (findedPosts) {
+            dispatch(showPost(findedPosts))
+        } else {
+            dispatch(getPostById(intId))
+        }
+    }, [id, list, dispatch])
 
     if (postForView.loading) {
         return <Container>Loading...</Container>

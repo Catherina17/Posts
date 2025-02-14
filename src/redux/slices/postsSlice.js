@@ -48,7 +48,13 @@ export const postsSlice = createSlice({
             const newPost = {...action.payload}
 
             newPost.id = new Date().getTime()
-            state.posts.list = state.posts.list ? [action.payload, [...state.posts.list]] : [action.payload]
+            state.posts.list = state.posts.list ? [newPost, ...state.posts.list] : [newPost]
+        },
+        showPost: (state, action) => {
+            state.postForView = {
+                post: action.payload,
+                loading: false
+            }
         }
     },
     extraReducers: (builder) => {
@@ -91,6 +97,6 @@ export const postsSlice = createSlice({
     },       
 })
 
-export const { editPost, addPost } = postsSlice.actions
+export const { editPost, addPost, showPost } = postsSlice.actions
 
 export default postsSlice.reducer
