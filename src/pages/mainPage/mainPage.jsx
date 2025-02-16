@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux"
-import { Container } from "../../components/container/styles"
+import { Container } from "../../components/ui/container/container"
 import { PostsComponents } from "../../components/posts/postsComponents"
-import { Typo } from "../../components/typo/typo"
+import { Typo } from "../../components/ui/typo/typo"
 import { useEffect } from "react"
 import { getFreshPosts } from "../../redux/slices/postsSlice"
 
@@ -13,7 +13,7 @@ export const MainPage = () => {
 
   useEffect(() => {
     dispatch(getFreshPosts())
-  }, [])
+  }, [dispatch])
 
   return <>
     <Container>
