@@ -10,7 +10,7 @@ import { SortFilter } from "../../components/sortFilter/sortFilter"
 
 
 export const PostsPage = () => {
-    const { list, loading, filteredPost } = ((state) => state.posts.posts)
+    const { list, loading, filteredPost } = useSelector((state) => state.posts.posts)
 
     const dispatch = useDispatch()
 
