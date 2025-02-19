@@ -8,7 +8,3 @@ export const PostsComponents = ({ posts }) => (
         ))}
     </SC.Posts>
 )
-
-            
-
-

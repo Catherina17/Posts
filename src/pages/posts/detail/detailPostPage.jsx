@@ -4,7 +4,10 @@ import { useEffect, useState } from "react"
 import { Typo } from "../../../components/ui/typo/typo"
 import { Container } from "../../../components/ui/container/container"
 import { Link } from "../../../components/ui/link/link"
-import { deletePost, getPostById, showPost } from "../../../redux/slices/postsSlice"
+import { deletePost, getPostById, showPost, getFreshPosts } from "../../../redux/slices/postsSlice"
+import { Modal } from "../../../components/ui/modal/modal"
+import { Button } from "../../../components/ui/button/button"
+import { LoadingIndicator } from "../../../components/posts/components/loading/loading"
 import * as SC from './styles' 
 
 export const DetailPostPage = () => {
@@ -22,13 +25,14 @@ export const DetailPostPage = () => {
     const showEditAndDeleteBtn = list && user
 
     const onDeletePost = () => {    
+        console.log("Удаление в deletePostPage:", postForDelete)
         dispatch(deletePost(postForDelete))
-
+    
         setPostForDelete(null)
-
         return navigate('/posts')
     }
 
+    
     useEffect(() => {
         const intId = Number(id)
         const findedPosts = list ? list.find((item) => item.id === intId) : undefined
@@ -41,7 +45,7 @@ export const DetailPostPage = () => {
     }, [id, list, dispatch])
 
     if (postForView.loading) {
-        return <Container>Loading...</Container>
+        return <LoadingIndicator />
     }
 
     if (!postForView.post || !postForView.post.hasOwnProperty('id')) {
@@ -54,15 +58,13 @@ export const DetailPostPage = () => {
 
     return <Container>
         {postForDelete && 
-            <SC.ModalWrapper>
-                <SC.Modal>
-                    <SC.ModalText>Вы точно уверены, что хотите удалить публикацию с ID - {postForDelete.id}?</SC.ModalText>
-                    <SC.ModalContent>
-                        <SC.DeleteButton onClick={onDeletePost}>Да</SC.DeleteButton>
-                        <button onClick={() => setPostForDelete(null)}>Нет</button>
-                    </SC.ModalContent>
-                </SC.Modal>
-            </SC.ModalWrapper>
+            <Modal
+                title={`Вы точно уверены, что хотите удалить публикацию с ID - ${postForDelete.id}?`}
+            >
+                <SC.DeleteButton onClick={onDeletePost}>Да</SC.DeleteButton>
+                <Button className='cancel' onClick={() => setPostForDelete(null)}>Нет</Button>
+                {/* <SC.ButtonRed onClick={() => setPostForDelete(null)}>Нет</SC.ButtonRed> */}
+            </Modal>
         }
         <Typo>{post.title}</Typo>
         <SC.Image src={image} alt={post.title} />

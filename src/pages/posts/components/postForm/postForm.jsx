@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import * as SC from './styles'
 import { Container } from "../../../../components/ui/container/container"
 import { Typo } from '../../../../components/ui/typo/typo'
 import { Form } from '../../../../components/ui/form/form'
 import { Field } from '../../../../components/ui/field/field'
 import { Input } from '../../../../components/ui/input/input'
+import * as SC from './styles'
 
 const DEFAULT_VALUES = { title: '', body: '' }
 

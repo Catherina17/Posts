@@ -33,9 +33,11 @@ export const getPosts = createAsyncThunk(
 export const getFreshPosts = createAsyncThunk(
     'posts/fetchFreshPosts',
     async (limit) => {
-        return await postsAPI.fetchFreshPosts(limit)
+        const response = await postsAPI.fetchFreshPosts(limit);
+        return response;
     }
-)
+);
+
 
 export const postsSlice = createSlice({
     name: 'posts',
@@ -63,7 +65,13 @@ export const postsSlice = createSlice({
             }
         },
         deletePost: (state, action) => {
+            console.log("Состояние до удаления:", state.posts.list)
             state.posts.list = state.posts.list.filter((post) => post.id !== action.payload.id)
+    
+            if (state.freshPosts.posts) {
+                state.freshPosts.posts = state.freshPosts.posts.filter((post) => post.id !== action.payload.id)
+                console.log("Состояние freshPosts (после удаления):", state.freshPosts.posts)
+            }
             
             state.postForView = {
                 post: null,
@@ -102,12 +110,14 @@ export const postsSlice = createSlice({
                 loading: true
             }
         }),
+
         builder.addCase(getFreshPosts.fulfilled, (state, action) => {
+            console.log("Свежие посты в postsSlice в getFreshPosts.fulfilled: ", action.payload); 
             state.freshPosts = {
                 posts: action.payload,
                 loading: false
-            }
-        })
+            };
+        });        
     },       
 })
 

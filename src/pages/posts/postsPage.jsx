@@ -4,6 +4,7 @@ import { PostsComponents } from "../../components/posts/postsComponents"
 import { Typo } from "../../components/ui/typo/typo"
 import { useEffect } from "react"
 import { getPosts } from "../../redux/slices/postsSlice"
+import { LoadingIndicator } from "../../components/posts/components/loading/loading"
 
 
 export const PostsPage = () => {
@@ -17,7 +18,7 @@ export const PostsPage = () => {
     }, [list, dispatch])
 
     if (!list && loading) {
-        return <Container>Loading...</Container>
+        return <LoadingIndicator />
     }
 
     if(!list) {

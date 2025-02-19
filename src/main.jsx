@@ -9,9 +9,9 @@ import { EditPostPage } from './pages/posts/edit/editPostPage.jsx'
 import { AddPostPage } from './pages/posts/add/addPostPage.jsx'
 import { AuthPage } from './pages/authPage/authPage.jsx'
 import { RegistrationPage } from './pages/registrationPage/registrationPage.jsx'
+import { DetailPostPage } from './pages/posts/detail/detailPostPage.jsx'
 import { store } from './redux/store.js'
 import './index.css'
-import { DetailPostPage } from './pages/posts/detail/detailPostPage.jsx'
 
 const router = createBrowserRouter([
   {
