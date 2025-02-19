@@ -26,7 +26,7 @@ export const MainPage = () => {
           <Typo>Свежие публикации</Typo>
           <PostsComponents posts={posts} />
         </>
-      }
+    }
       {post && 
         <>
           <Typo>Последний просмотренный пост</Typo>

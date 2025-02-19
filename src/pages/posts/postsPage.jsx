@@ -5,10 +5,13 @@ import { Typo } from "../../components/ui/typo/typo"
 import { useEffect } from "react"
 import { getPosts } from "../../redux/slices/postsSlice"
 import { LoadingIndicator } from "../../components/posts/components/loading/loading"
+import { SearchFilter } from "../../components/searchFilter/searchFilter"
+import { SortFilter } from "../../components/sortFilter/sortFilter"
 
 
 export const PostsPage = () => {
-    const { list, loading } = useSelector((state) => state.posts.posts)
+    const { list, loading, filteredPost } = ((state) => state.posts.posts)
+
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -25,8 +28,12 @@ export const PostsPage = () => {
         return <>404</>
     }
 
+    const postsToDisplay = filteredPost || list
+
     return <Container>
         <Typo>Публикации</Typo>
-        <PostsComponents posts={list} />
+        <SearchFilter />
+        <SortFilter />
+        <PostsComponents posts={postsToDisplay} />
     </Container>
 }

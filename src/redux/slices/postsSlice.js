@@ -4,7 +4,10 @@ import { postsAPI } from "../../api/postsAPI";
 const initialState = {
     posts: {
         list: null,
-        loading: false
+        loading: false,
+        searchTerm: '',
+        filteredPost: [],
+        sort: ''
     },
     postForView: {
         post: null,
@@ -38,6 +41,36 @@ export const getFreshPosts = createAsyncThunk(
     }
 );
 
+export const filterPosts = createAsyncThunk(
+    'posts/filterPosts',
+    async (searchTerm, { getState }) => {
+        const { posts } = getState().posts
+        
+        let filteredList = [...posts.list]
+
+        if (!posts.list || posts.list.length === 0) {
+            return []
+        }
+
+        if (searchTerm) {
+            filteredList = filteredList.filter(post =>
+                post.title.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+        }
+        
+        const sort = posts.sort
+        
+        if (sort) { 
+            const order = sort === 'ASC' ? 1 : sort === 'DESC' ? -1 : 0
+                  
+            filteredList.sort((a, b) => 
+              order === 0 ? 0 : order * a.title.localeCompare(b.title)
+            )
+        }
+
+        return filteredList
+    }
+)
 
 export const postsSlice = createSlice({
     name: 'posts',
@@ -77,7 +110,16 @@ export const postsSlice = createSlice({
                 post: null,
                 loading: false
             }
-        }
+        }, 
+        setSearchTerm: (state, action) => {
+            state.posts.searchTerm = action.payload
+        },
+        updateFilteredPosts: (state, action) => {
+            state.posts.filteredPost = action.payload;
+        },
+        setSort: (state, action) => {
+            state.posts.sort = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder.addCase(getPostById.pending, (state) => {
@@ -110,17 +152,24 @@ export const postsSlice = createSlice({
                 loading: true
             }
         }),
-
         builder.addCase(getFreshPosts.fulfilled, (state, action) => {
             console.log("Свежие посты в postsSlice в getFreshPosts.fulfilled: ", action.payload); 
             state.freshPosts = {
                 posts: action.payload,
                 loading: false
-            };
-        });        
+            }
+        })
+        builder.addCase(filterPosts.pending, (state) => {
+            state.posts.loading = true;
+        }),
+        builder.addCase(filterPosts.fulfilled, (state, action) => {
+            state.posts.filteredPost = action.payload; 
+            state.posts.loading = false;
+            console.log('Отфильтрованный список state.posts.filteredPost:', state.posts.filteredPost);
+        })      
     },       
 })
 
-export const { editPost, addPost, showPost, deletePost } = postsSlice.actions
+export const { editPost, addPost, showPost, deletePost, setSearchTerm, updateFilteredPosts, setSort } = postsSlice.actions
 
 export default postsSlice.reducer
