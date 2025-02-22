@@ -40,6 +40,14 @@ export const Button = styled.button`
         } 
     }
 
+    &.pagination {
+        background:rgb(26, 28, 31); 
+        
+        &:hover {
+            background:rgb(119, 123, 138); 
+        }
+    } 
+
     &:disabled {
         opacity: 0.5;
         cursor: default;
