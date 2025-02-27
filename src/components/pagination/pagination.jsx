@@ -1,56 +1,37 @@
-import { useDispatch, useSelector } from "react-redux";
-import { setCurrentPage } from "../../redux/slices/postsSlice";
-import * as SC from './styles';
-import { Button } from '../ui/button/button';
+import { useDispatch, useSelector } from 'react-redux'
+import { setCurrentPage } from '../../redux/slices/postsSlice'
+import * as SC from './styles'
 
 export const Pagination = () => {
-    const dispatch = useDispatch();
-    const { currentPage, filteredPost, postsPerPage } = useSelector((state) => state.posts.posts);
-    
-    const pageCount = Math.ceil((filteredPost?.length || 0) / postsPerPage);
+    const dispatch = useDispatch()
+    const { currentPage, postsPerPage } = useSelector((state) => state.posts.posts)
+    const totalPosts = useSelector((state) => state.posts.posts.filteredPost.length || 0)
+
+    const totalPages = Math.ceil(totalPosts / postsPerPage)
 
     const handleNextPage = () => {
-        if (currentPage < pageCount - 1) {
-            dispatch(setCurrentPage(currentPage + 1));
+        if (currentPage < totalPages) {
+            dispatch(setCurrentPage(currentPage + 1))
         }
-    };
+    }
 
     const handlePrevPage = () => {
-        if (currentPage > 0) {
-            dispatch(setCurrentPage(currentPage - 1));
+        if (currentPage > 1) {
+            dispatch(setCurrentPage(currentPage - 1))
         }
-    };
-
+    }
+   
     return (
         <SC.PaginationWrapper>
-            {pageCount > 0 && (
-                <>
-                    <Button 
-                        className='pagination' 
-                        onClick={handlePrevPage} 
-                        disabled={currentPage === 0}
-                    >
-                        Назад
-                    </Button>
-                    <div>
-                        {Array.from({ length: pageCount }, (_, index) => (
-                            <div
-                                key={index}
-                                onClick={() => dispatch(setCurrentPage(index + 1))}
-                            >
-                                {index + 1}
-                            </div>
-                        ))}
-                    </div>
-                    <Button 
-                        className='pagination' 
-                        onClick={handleNextPage} 
-                        disabled={currentPage === pageCount - 1}
-                    >
-                        Вперед
-                    </Button>
-                </>
-            )}
+        {totalPages > 1 ? (
+            <>
+            <SC.PaginationButton onClick={handlePrevPage} disabled={currentPage === 1}>Назад</SC.PaginationButton>
+            <SC.Pages>{currentPage} из {totalPages}</SC.Pages>
+            <SC.PaginationButton onClick={handleNextPage} disabled={currentPage === totalPages}>Вперед</SC.PaginationButton>
+        </>
+        ) : (
+            <SC.OnePage>1</SC.OnePage>
+        ) }     
         </SC.PaginationWrapper>
-    );
-};
+    )
+}

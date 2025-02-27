@@ -1,13 +1,12 @@
-import { useNavigate, useParams } from "react-router-dom"
-import { useSelector, useDispatch } from "react-redux"
-import { useEffect, useState } from "react"
-import { Typo } from "../../../components/ui/typo/typo"
-import { Container } from "../../../components/ui/container/container"
-import { Link } from "../../../components/ui/link/link"
-import { deletePost, getPostById, showPost, getFreshPosts } from "../../../redux/slices/postsSlice"
-import { Modal } from "../../../components/ui/modal/modal"
-import { Button } from "../../../components/ui/button/button"
-import { LoadingIndicator } from "../../../components/posts/components/loading/loading"
+import { useNavigate, useParams } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { useEffect, useState } from 'react'
+import { Typo } from '../../../components/ui/typo/typo'
+import { Container } from '../../../components/ui/container/container'
+import { Link } from '../../../components/ui/link/link'
+import { deletePost, getPostById, showPost } from '../../../redux/slices/postsSlice'
+import { Modal } from '../../../components/ui/modal/modal'
+import { LoadingIndicator } from '../../../components/posts/components/loading/loading'
 import * as SC from './styles' 
 
 export const DetailPostPage = () => {
@@ -25,7 +24,6 @@ export const DetailPostPage = () => {
     const showEditAndDeleteBtn = list && user
 
     const onDeletePost = () => {    
-        console.log("Удаление в deletePostPage:", postForDelete)
         dispatch(deletePost(postForDelete))
     
         setPostForDelete(null)
@@ -62,8 +60,7 @@ export const DetailPostPage = () => {
                 title={`Вы точно уверены, что хотите удалить публикацию с ID - ${postForDelete.id}?`}
             >
                 <SC.DeleteButton onClick={onDeletePost}>Да</SC.DeleteButton>
-                <Button className='cancel' onClick={() => setPostForDelete(null)}>Нет</Button>
-                {/* <SC.ButtonRed onClick={() => setPostForDelete(null)}>Нет</SC.ButtonRed> */}
+                <SC.CancelButton onClick={() => setPostForDelete(null)}>Нет</SC.CancelButton>
             </Modal>
         }
         <Typo>{post.title}</Typo>

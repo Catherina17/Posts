@@ -1,9 +1,9 @@
-import styled from "styled-components";
+import styled from 'styled-components'
 
 export const SortWrapper = styled.div`
     max-width: 150px;
     width: 100%;
-`;
+`
 
 export const SortSelect = styled.select`
     border: none;
@@ -12,4 +12,4 @@ export const SortSelect = styled.select`
     cursor: pointer;
     outline: none;
     padding: 0 0 15px 0;
-`;
+`

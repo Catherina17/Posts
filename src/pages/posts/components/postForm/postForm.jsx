@@ -1,13 +1,13 @@
 import { useState } from 'react'
-import { Container } from "../../../../components/ui/container/container"
+import { Container } from '../../../../components/ui/container/container'
 import { Typo } from '../../../../components/ui/typo/typo'
 import { Form } from '../../../../components/ui/form/form'
 import { Field } from '../../../../components/ui/field/field'
 import { Input } from '../../../../components/ui/input/input'
+import { Button } from '../../../../components/ui/button/button'
 import * as SC from './styles'
 
 const DEFAULT_VALUES = { title: '', body: '' }
-
 
 export const PostForm = ({ title, onSubmitForm, defaultValues }) => {
     const [formValues, setFormValues] = useState(defaultValues || DEFAULT_VALUES)
@@ -48,7 +48,7 @@ export const PostForm = ({ title, onSubmitForm, defaultValues }) => {
                         onChange={(e) => onChange(e.target.name, e.target.value)}
                     />
                 </Field>
-                <SC.Button type='submit' disabled={disabled}>Сохранить</SC.Button>
+                <Button type='submit' disabled={disabled}>Сохранить</Button>
             </Form>
         </Container>
     )

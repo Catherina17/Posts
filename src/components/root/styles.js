@@ -1,5 +1,6 @@
-import { NavLink } from "react-router-dom";
-import styled from "styled-components";
+import { NavLink } from 'react-router-dom'
+import styled from 'styled-components'
+import { Button } from '../ui/button/styles'
 
 export const Menu = styled.div`
     display: flex;
@@ -21,5 +22,13 @@ export const MenuItem = styled(NavLink)`
 
     &:hover {
         text-decoration: underline;
+    }
+`
+
+export const LogoutButton = styled(Button)`
+    background:rgb(78, 16, 16); 
+        
+    &:hover:not(:disabled) {
+        background:rgb(101, 32, 32);
     }
 `

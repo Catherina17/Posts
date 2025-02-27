@@ -1,23 +1,23 @@
-import { useDispatch, useSelector } from "react-redux";
-import { Container } from "../../components/ui/container/container";
-import { PostsComponents } from "../../components/posts/postsComponents";
-import { Typo } from "../../components/ui/typo/typo";
-import { useEffect } from "react";
-import { getPosts } from "../../redux/slices/postsSlice";
-import { LoadingIndicator } from "../../components/posts/components/loading/loading";
-import { SearchFilter } from "../../components/searchFilter/searchFilter";
-import { SortFilter } from "../../components/sortFilter/sortFilter";
-import { Pagination } from "../../components/pagination/pagination"; 
+import { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { Container } from '../../components/ui/container/container'
+import { PostsComponents } from '../../components/posts/postsComponents'
+import { Typo } from '../../components/ui/typo/typo'
+import { getPosts } from '../../redux/slices/postsSlice'
+import { LoadingIndicator } from '../../components/posts/components/loading/loading'
+import { SearchFilter } from '../../components/searchFilter/searchFilter'
+import { SortFilter } from '../../components/sortFilter/sortFilter'
+import { Pagination } from '../../components/pagination/pagination' 
 
 export const PostsPage = () => {
-    const { list, loading, filteredPost = [], searchTerm, currentPage, postsPerPage } = useSelector((state) => state.posts.posts)
+    const { list, loading, paginatedPosts } = useSelector((state) => state.posts.posts)
     const dispatch = useDispatch()
 
     useEffect(() => {
         if (!list) {
             dispatch(getPosts())
         } 
-    }, [list, dispatch])
+    }, [dispatch, list])
 
     if (loading) {
         return <LoadingIndicator />
@@ -27,19 +27,19 @@ export const PostsPage = () => {
         return <>404</>
     }
 
-    const postsToDisplay = (filteredPost.length > 0 || searchTerm) ? filteredPost : list
-    
-    // const postsToDisplay = (filteredPost.length > 0 || searchTerm) ? filteredPost : list;
-
-    // const currentItems = postsToDisplay.slice(currentPage * postsPerPage, (currentPage + 1) * postsPerPage)
-
     return (
         <Container>
             <Typo>Публикации</Typo>
             <SearchFilter />
             <SortFilter />
-            <PostsComponents posts={postsToDisplay} />
-            <Pagination /> 
+            {paginatedPosts.length > 0 ? (
+                <>
+                    <PostsComponents posts={paginatedPosts} /> 
+                    <Pagination />
+                </>
+            ) : (
+                <Typo>Не нашлось постов с таким названием</Typo>
+            )}
         </Container>
     )
 }

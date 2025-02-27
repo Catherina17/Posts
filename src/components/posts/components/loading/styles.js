@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { keyframes } from 'styled-components'
 
 const spin = keyframes`
     0% { transform: rotate(0deg); }
@@ -19,4 +19,4 @@ export const LoadingIndicator = styled.div`
     border-top: 3px solid rgb(106, 106, 108);
     border-radius: 50%;
     animation: ${spin} 1s linear infinite;
-`;
+`

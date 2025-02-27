@@ -1,6 +1,5 @@
 import * as SC from './styles'
 
-
 export const LoadingIndicator = () => {
 
     return (

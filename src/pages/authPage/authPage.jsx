@@ -1,18 +1,22 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { useDispatch } from "react-redux"
-import { Container } from "../../components/ui/container/container"
-import { Typo } from "../../components/ui/typo/typo"
-import { Field } from "../../components/ui/field/field"
-import { Input } from "../../components/ui/input/input"
-import { Form } from "../../components/ui/form/form"
-import { login } from "../../redux/slices/authSlice"
-import { Button } from "../../components/ui/button/button"
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { Container } from '../../components/ui/container/container'
+import { Typo } from '../../components/ui/typo/typo'
+import { Field } from '../../components/ui/field/field'
+import { Input } from '../../components/ui/input/input'
+import { Form } from '../../components/ui/form/form'
+import { login } from '../../redux/slices/authSlice'
+import { Modal } from '../../components/ui/modal/modal'
+import { Button } from '../../components/ui/button/button'
 
 export const AuthPage = () => {
-    const [formValues, setFormValues] = useState({ email: '', password: '' })
     const navigate = useNavigate()
     const dispatch = useDispatch()
+
+    const [formValues, setFormValues] = useState({ email: '', password: '' })
+    const [modalVisible, setModalVisible] = useState(false)
+    const [modalMessage, setModalMessage] = useState('')
 
     const onChange = (name, value) => {
         setFormValues({ ...formValues, [name]: value })
@@ -27,14 +31,16 @@ export const AuthPage = () => {
             const users = JSON.parse(localStorage.getItem('users'))
 
             if (!users) {
-                alert('Данный пользователь не найден')
+                setModalMessage('Данный пользователь не найден')
+                setModalVisible(true)
                 return
             }
 
             const currentUser = users.find((user) => user.email === formValues.email && user.password === formValues.password)
 
             if (!currentUser) {
-                alert('Данный пользователь не найден')
+                setModalMessage('Данный пользователь не найден')
+                setModalVisible(true)
                 return
             }
 
@@ -68,7 +74,12 @@ export const AuthPage = () => {
                     onChange={(e) => onChange(e.target.name, e.target.value)}
                 />
             </Field>
-            <Button className='login' type='submit' disabled={disabled}>Авторизация</Button>
-        </Form>       
+            <Button type='submit' disabled={disabled}>Авторизация</Button>
+        </Form> 
+        {modalVisible && (
+            <Modal title={modalMessage}>
+                <Button onClick={() => setModalVisible(false)}>Ок</Button>
+            </Modal>
+        )}      
     </Container>
 }

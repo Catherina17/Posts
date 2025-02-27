@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { Button } from "../../../components/ui/button/styles";
+import styled from 'styled-components'
+import { Button } from '../../../components/ui/button/styles'
 
 export const Image = styled.img`
     max-width: 200px;
@@ -35,10 +35,10 @@ export const DeleteButton = styled.button`
     }
 `
 
-export const ButtonRed = styled(Button)`
+export const CancelButton = styled(Button)`
     background: #f44336;
         
-    &:hover {
+    &:hover:not(:disabled) {
         background: #da190b; 
     }
 `

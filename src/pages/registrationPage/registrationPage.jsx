@@ -1,16 +1,19 @@
-import { useState } from "react"
-import { Container } from "../../components/ui/container/container"
-import { Form } from "../../components/ui/form/form"
-import { Field } from "../../components/ui/field/field"
-import { Input } from "../../components/ui/input/input"
-import { Typo } from "../../components/ui/typo/typo"
-import { useNavigate } from "react-router-dom"
-import { Button } from "../../components/ui/button/button"
-
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { Container } from '../../components/ui/container/container'
+import { Form } from '../../components/ui/form/form'
+import { Field } from '../../components/ui/field/field'
+import { Input } from '../../components/ui/input/input'
+import { Typo } from '../../components/ui/typo/typo'
+import { Modal } from '../../components/ui/modal/modal'
+import { Button } from '../../components/ui/button/button'
 
 export const RegistrationPage = () => {
-    const [formValues, setFormValues] = useState({ name: '', surname: '', email: '', password: '' })
     const navigate = useNavigate()
+
+    const [formValues, setFormValues] = useState({ name: '', surname: '', email: '', password: '' })
+    const [modalVisible, setModalVisible] = useState(false)
+    const [modalMessage, setModalMessage] = useState('')
 
     const onSubmit = (e) => {
         e.preventDefault()
@@ -22,13 +25,14 @@ export const RegistrationPage = () => {
 
             if (!users) {
                 localStorage.setItem('users', JSON.stringify([newUser]))
-                alert('Вы успешно зарегистрировались')
-                navigate('/auth')
+                setModalMessage('Вы успешно зарегистрировались!')
+                setModalVisible(true)
                 return
             }
 
             if(users.find((user) => user.email === formValues.email)) {
-                alert('Пользователь с таким email уже существует')
+                setModalMessage('Пользователь с таким email уже существует')
+                setModalVisible(true)
                 return
             }
 
@@ -36,9 +40,8 @@ export const RegistrationPage = () => {
 
             localStorage.setItem('users', JSON.stringify(users))
             
-            alert('Вы успешно зарегистрировались')
-
-            navigate('/auth')
+            setModalMessage('Вы успешно зарегистрировались!')
+            setModalVisible(true)
         } catch (e) {
             console.log(e)
         }
@@ -49,6 +52,11 @@ export const RegistrationPage = () => {
     }    
 
     const disabled = !formValues.email || !formValues.password
+
+    const onCloseModal = () => {
+        setModalVisible(false)
+        navigate('/auth')
+    }
 
     return (
         <Container>
@@ -90,8 +98,13 @@ export const RegistrationPage = () => {
                         onChange={(e) => onChange(e.target.name, e.target.value)}
                     />
                 </Field>
-                <Button className='registration' type='submit' disabled={disabled}>Регистрация</Button>
+                <Button type='submit' disabled={disabled}>Регистрация</Button>
             </Form>
+            {modalVisible && (
+                <Modal title={modalMessage}>
+                    <Button onClick={onCloseModal}>Ок</Button>
+                </Modal>
+            )}
         </Container>
     )
 }

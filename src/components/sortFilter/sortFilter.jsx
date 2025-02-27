@@ -1,6 +1,6 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { setSort } from '../../redux/slices/postsSlice';
-import * as SC from './styles';
+import { useDispatch, useSelector } from 'react-redux'
+import { setSort } from '../../redux/slices/postsSlice'
+import * as SC from './styles'
 
 export const SortFilter = () => {
     const dispatch = useDispatch()

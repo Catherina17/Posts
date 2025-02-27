@@ -1,9 +1,8 @@
-import { Outlet, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { Container } from "../ui/container/container";
-import { logout } from "../../redux/slices/authSlice";
-import * as SC from "./styles";
-import { Button } from "../ui/button/button";
+import { Outlet, useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Container } from '../ui/container/container'
+import { logout } from '../../redux/slices/authSlice'
+import * as SC from './styles'
 
 export const Root = () => {
     const { user } = useSelector((state) => state.auth)
@@ -24,7 +23,7 @@ export const Root = () => {
                     {!user && <SC.MenuItem to={'/auth'}>Авторизация</SC.MenuItem>}
                     {!user && <SC.MenuItem to={'/registration'}>Регистрация</SC.MenuItem>}
                     {user && <SC.MenuItem to={'/posts/add'}>Добавление поста</SC.MenuItem>}
-                    {user && <Button className='logout' onClick={onClickExitBtn}>Выход</Button>}
+                    {user && <SC.LogoutButton onClick={onClickExitBtn}>Выход</SC.LogoutButton>}
                 </SC.Menu>
             </Container>
             <Outlet />

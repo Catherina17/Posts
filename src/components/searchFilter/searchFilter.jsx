@@ -1,6 +1,6 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { setSearchTerm } from '../../redux/slices/postsSlice';
-import * as SC from './styles';
+import { useDispatch, useSelector } from 'react-redux'
+import { setSearchTerm } from '../../redux/slices/postsSlice'
+import * as SC from './styles'
 
 export const SearchFilter = () => {
     const dispatch = useDispatch()
