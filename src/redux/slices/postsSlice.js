@@ -49,6 +49,24 @@ export const getFreshPosts = createAsyncThunk(
     }
 )
 
+const updateFilteredAndPaginatedPosts = (state) => {
+    const filteredPosts = state.posts.list.filter(post => 
+        post.title.toLowerCase().includes(state.posts.searchTerm.toLowerCase())
+    )
+
+    if (state.posts.sort) {
+        const order = state.posts.sort === 'ASC' ? 1 : -1
+        state.posts.filteredPost = filteredPosts.sort((a, b) => 
+            order * a.title.localeCompare(b.title)
+        )
+    } else {
+        state.posts.filteredPost = filteredPosts
+    }
+
+    state.posts.currentPage = 1
+    state.posts.paginatedPosts = state.posts.filteredPost.slice(0, state.posts.postsPerPage)
+}
+
 const postsSlice = createSlice({
     name: 'posts',
     initialState,
@@ -66,11 +84,7 @@ const postsSlice = createSlice({
                 state.freshPosts.posts = updateList(state.freshPosts.posts)
             }  
 
-            state.posts.filteredPost = state.posts.list.filter(post => 
-                post.title.toLowerCase().includes(state.posts.searchTerm.toLowerCase())
-            )
-        
-            state.posts.paginatedPosts = state.posts.filteredPost.slice(0, state.posts.postsPerPage)
+            updateFilteredAndPaginatedPosts(state)
 
             if (state.postForView.post && state.postForView.post.id === action.payload.id) {
                 state.postForView.post = action.payload
@@ -82,11 +96,7 @@ const postsSlice = createSlice({
         
             state.posts.list = state.posts.list ? [newPost, ...state.posts.list] : [newPost]
         
-            state.posts.filteredPost = state.posts.list.filter(post =>
-                post.title.toLowerCase().includes(state.posts.searchTerm.toLowerCase())
-            )
-        
-            state.posts.paginatedPosts = state.posts.filteredPost.slice(0, state.posts.postsPerPage)
+            updateFilteredAndPaginatedPosts(state)
         },               
         showPost: (state, action) => {
             state.postForView = {
@@ -109,55 +119,18 @@ const postsSlice = createSlice({
                 newFreshPost && state.freshPosts.posts.push(newFreshPost)
             }
                 
-            const filteredPosts = state.posts.list.filter(post => 
-                post.title.toLowerCase().includes(state.posts.searchTerm.toLowerCase())
-            )
-        
-            state.posts.filteredPost = filteredPosts
-
-            state.posts.currentPage = 1
-            state.posts.paginatedPosts = filteredPosts.slice(0, state.posts.postsPerPage)
+            updateFilteredAndPaginatedPosts(state)
         }, 
         setSearchTerm: (state, action) => {
             state.posts.searchTerm = action.payload
-        
-            const filteredPosts = state.posts.list.filter(post => 
-                post.title.toLowerCase().includes(action.payload.toLowerCase())
-            )
-
-            if (state.posts.sort) {
-                const order = state.posts.sort === 'ASC' ? 1 : -1
-                
-                state.posts.filteredPost = filteredPosts.sort((a, b) => 
-                    order * a.title.localeCompare(b.title)
-                )
-            } else {
-                state.posts.filteredPost = filteredPosts
-            }
-        
-            state.posts.currentPage = 1
-            state.posts.paginatedPosts = state.posts.filteredPost.slice(0, state.posts.postsPerPage)
+            updateFilteredAndPaginatedPosts(state)
         },     
         setSort: (state, action) => {
             state.posts.sort = action.payload
-
-            if (action.payload === '') {
-                state.posts.filteredPost = [...state.posts.list.filter(post => 
-                    post.title.toLowerCase().includes(state.posts.searchTerm.toLowerCase())
-                )]
-            } else {
-                const order = action.payload === 'ASC' ? 1 : -1
-
-                state.posts.filteredPost.sort((a, b) => 
-                    order * a.title.localeCompare(b.title)
-                )
-            }
-        
-            state.posts.currentPage = 1
-            state.posts.paginatedPosts = state.posts.filteredPost.slice(0, state.posts.postsPerPage)
+            updateFilteredAndPaginatedPosts(state)
         }, 
         setCurrentPage: (state, action) => {
-            state.posts.currentPage = action.payload
+            state.posts.currentPage = action.payload;
             const startIndex = (state.posts.currentPage - 1) * state.posts.postsPerPage
             const endIndex = startIndex + state.posts.postsPerPage
             state.posts.paginatedPosts = state.posts.filteredPost.slice(startIndex, endIndex)

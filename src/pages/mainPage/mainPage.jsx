@@ -17,7 +17,7 @@ export const MainPage = () => {
     if (!posts) {
       dispatch(getFreshPosts())
     }
-}, [dispatch, posts])
+  }, [dispatch, posts])
 
   return (
     <Container> 
